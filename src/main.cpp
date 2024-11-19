@@ -21,6 +21,9 @@ int const potPin = A0;
 int potVal;
 
 int angle;
+int anc_angle;
+
+int sommeil = 0;
 
 int const Angle_Mini = 0;
 int const Angle_Max = 90; 
@@ -30,8 +33,7 @@ int const Angle_Max = 90;
 void setup() {
   pinMode(3, INPUT);
   myServo.attach(3);
-  myServo.write(0);
-  delay(1000);
+
 
   
   Serial.begin(9600);
@@ -50,7 +52,8 @@ void loop() {
   Serial.print(" , angle : ");
   Serial.println(angle);
   myServo.write(angle);
-  delay(5000);
+  delay(2500);
+
 }
 
 
