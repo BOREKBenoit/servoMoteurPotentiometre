@@ -1,18 +1,56 @@
-#include <Arduino.h>
+/* 
+  Commande Servo Moteur MG 995
+  
+  Programme Basique sur Arduino Mega.
+  IDE Visual Studio Code 1.95.3
 
-// put function declarations here:
-int myFunction(int, int);
+  Constituants :
+    - servo moteur MG 995
+    - Potentiomètre 
+
+    Version 1 : 19/11/2024
+  */
+
+#include <Arduino.h>
+#include <Servo.h>
+
+Servo myServo;
+
+int const potPin = A0;
+
+int potVal;
+
+int angle;
+
+int const Angle_Mini = 0;
+int const Angle_Max = 90; 
+
+
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  pinMode(3, INPUT);
+  myServo.attach(3);
+  myServo.write(0);
+  delay(1000);
+
+  
+  Serial.begin(9600);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  Serial.println("");
+  Serial.println("Nouvelle commande d'angle.");
+  Serial.println("");
+
+  potVal = analogRead(potPin);
+  Serial.print("Valeur du potentiomètre : ");
+  Serial.print(potVal);
+
+  angle = map(potVal, 0, 1023, Angle_Mini, Angle_Max);
+  Serial.print(" , angle : ");
+  Serial.println(angle);
+  myServo.write(angle);
+  delay(5000);
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}
+
