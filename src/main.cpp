@@ -9,50 +9,49 @@
     - Potentiomètre 
 
     Version 1 : 19/11/2024
+    Benoit Borek
   */
 
 #include <Arduino.h>
-#include <Servo.h>
+#include <Servo.h> //Inclusion de la bibliothèque pour commander plus facilement le servo moteur.
 
-Servo myServo;
+Servo myServo; // Attribution du nom "Servo" à "myServo".
 
-int const potPin = A0;
+int const potPin = A0; // Attribution de la valeur A0 qui est la broche Arduino relié au curseur du potentiomètre.
 
-int potVal;
+int potVal; // Création de l'entier potVal qui contiendra la valeur analogique du curseur du potentiomètre.
 
-int angle;
-int anc_angle;
+int angle; // Création de l'entier angle qui contiendra l'angle convertie pour le servo moteur.
 
-int sommeil = 0;
 
-int const Angle_Mini = 0;
-int const Angle_Max = 90; 
+int const Angle_Mini = 0; // Création de la constante entière qui sera l'angle minimum dans lequel le servo moteur pourra se positionner.
+int const Angle_Max = 179; // Création de la constante entière qui sera l'angle maximum dans lequel le servo moteur pourra se positionner.
 
 
 
 void setup() {
-  pinMode(3, INPUT);
-  myServo.attach(3);
+  pinMode(3, OUTPUT); // Déclaration du pin 3 en output pour dire à l'arduino que l'on va envoyer une tension et non en recevoir.
+  myServo.attach(3); // Déclaration du pin 3 comme le pin relié à la borne MLI du servo moteur.
 
 
   
-  Serial.begin(9600);
+  Serial.begin(9600); // Initialisation la communication PC <---> Arduino.
 }
 
 void loop() {
   Serial.println("");
-  Serial.println("Nouvelle commande d'angle.");
+  Serial.println("Nouvelle commande d'angle."); // Affiche dans le moniteur série qu'une nouvelle angle sera envoyée.
   Serial.println("");
 
-  potVal = analogRead(potPin);
+  potVal = analogRead(potPin); // Attribution de la valeur analogique lu à l'entier "potVal".
   Serial.print("Valeur du potentiomètre : ");
-  Serial.print(potVal);
+  Serial.print(potVal); // Affiche dans le moniteur série la valeur analogique
 
-  angle = map(potVal, 0, 1023, Angle_Mini, Angle_Max);
+  angle = map(potVal, 0, 1023, Angle_Mini, Angle_Max); // Conversion de la valeur analogique en angle en respectant l'angle mini et l'angle max
   Serial.print(" , angle : ");
-  Serial.println(angle);
-  myServo.write(angle);
-  delay(2500);
+  Serial.println(angle); // Affiche dans le moniteur série l'angle convertie
+  myServo.write(angle); // Envoi l'angle au servo moteur.
+  delay(2500); // Pause de 2.5 secondes.
 
 }
 
